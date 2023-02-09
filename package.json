@@ -1,0 +1,22 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Pursuit Module 4 - Portfolio Project",
+  "main": "app.js",
+  "scripts": {
+    "db:init": "psql -U postgres -f database/schema.sql",
+    "db:seed": "psql -U postgres -f database/seed.sql",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "author": "Youssef Mohamed Farouk",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "nodemon": "^2.0.20",
+    "pg-promise": "^11.2.0",
+    "pgp": "^0.1.0"
+  }
+}

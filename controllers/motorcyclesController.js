@@ -34,9 +34,9 @@ motorcycles.get("/", async (req, res) => {
   const allMotorcycles = await getAllMotorcycles();
   console.log(allMotorcycles);
   if (Array.isArray(allMotorcycles)) {
-    res.status(200).json(allMotorcycles);
+    res.status(200).send(allMotorcycles);
   } else {
-    res.status(500).json({ error: "Server Error" });
+    res.status(500).send({ error: "Server Error" });
   }
 });
 
@@ -75,6 +75,7 @@ motorcycles.get("/:id", async (req, res) => {
 // DELETE
 motorcycles.delete("/:id", async (req, res) => {
   const { id } = req.params;
+  // console.log(id);
   const deletedMotorcycle = await deleteMotorcycle(id);
   if (deletedMotorcycle.id) {
     res.status(200).json(deletedMotorcycle);

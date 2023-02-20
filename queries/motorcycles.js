@@ -111,6 +111,7 @@ const updateMotorcycle = async (id, motorcycle) => {
 
 //DELETE A MOTORCYCLE LISTING
 const deleteMotorcycle = async (id) => {
+  // console.log("We hit the delete route");
   try {
     const deletedMotorcycle = await db.one(
       "DELETE FROM motorcycles WHERE id=$1 RETURNING *",

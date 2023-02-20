@@ -1,13 +1,13 @@
 const db = require("../database/dbConfig");
 
-// FORMAT SNACK NAME
+// FORMAT MOTORCYCLE NAME
 function formatString(string) {
   return string
     .toLowerCase()
     .replace(/(^\w{1})|(\s+\w{1})/g, (letter) => letter.toUpperCase());
 }
 
-// SHOW ALL SNACKS
+// SHOW ALL MOTORCYCLE LISTINGS
 const getAllMotorcycles = async () => {
   try {
     const allMotorcycles = await db.any("SELECT * FROM motorcycles");
@@ -17,7 +17,7 @@ const getAllMotorcycles = async () => {
   }
 };
 
-// SHOW ONE SNACK
+// SHOW ONE MOTORCYCLE LISTING
 const getOneMotorcycle = async (id) => {
   try {
     const oneMotorcycle = await db.oneOrNone(
@@ -30,17 +30,17 @@ const getOneMotorcycle = async (id) => {
   }
 };
 
-// CREATE NEW SNACK
+// CREATE NEW MOTORCYCLE LISTING
 const createMotorcycle = async (motorcycle) => {
-  // id, name, fiber, protein, added_sugar, is_healthy, image
   const {
+    img,
     owner,
     make,
     model,
     year,
     odometer,
-    isNew,
-    mods,
+    is_new,
+    description,
     title_on_hand,
     price,
     city,
@@ -48,19 +48,20 @@ const createMotorcycle = async (motorcycle) => {
   } = motorcycle;
   try {
     const newMotorcycle = await db.one(
-      "INSERT INTO motorcycles (owner, make, model, year, odometer, is_new, mods, title_on_hand, price, city, state) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *",
+      "INSERT INTO motorcycles (img, owner, make, model, year, odometer, is_new, description, title_on_hand, price, city, state) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING *",
       [
-        formatString(name),
-        formatString(make),
+        img,
+        owner,
+        make,
         model,
         year,
         odometer,
-        isNew,
-        formatString(mods),
+        is_new,
+        description,
         title_on_hand,
         price,
-        formatString(city),
-        state.toUpperCase(),
+        city,
+        state,
       ]
     );
     return newMotorcycle;
@@ -69,7 +70,7 @@ const createMotorcycle = async (motorcycle) => {
   }
 };
 
-// UPDATE A SNACK
+// UPDATE A MOTORCYCLE LISTING
 const updateMotorcycle = async (id, motorcycle) => {
   const {
     owner,
@@ -78,7 +79,7 @@ const updateMotorcycle = async (id, motorcycle) => {
     year,
     odometer,
     isNew,
-    mods,
+    description,
     title_on_hand,
     price,
     city,
@@ -86,19 +87,20 @@ const updateMotorcycle = async (id, motorcycle) => {
   } = motorcycle;
   try {
     const updatedMotorcycle = await db.one(
-      "UPDATE motorcycles SET owner=$1, make=$2, model=$3, year=$4, odometer=$5, is_new=$6, mods=$7, title_on_hand=$8, price=$9, city=$10, state=$11 WHERE id=$12 RETURNING *",
+      "UPDATE motorcycles SET owner=$1, make=$2, model=$3, year=$4, odometer=$5, is_new=$6, description=$7, title_on_hand=$8, price=$9, city=$10, state=$11 WHERE id=$12 RETURNING *",
       [
-        formatString(name),
-        formatString(make),
+        formatString(owner),
+        make,
         model,
         year,
         odometer,
         isNew,
-        formatString(mods),
+        formatString(description),
         title_on_hand,
         price,
         formatString(city),
         state.toUpperCase(),
+        id,
       ]
     );
     return updatedMotorcycle;
@@ -107,7 +109,7 @@ const updateMotorcycle = async (id, motorcycle) => {
   }
 };
 
-//DELETE A SNACK
+//DELETE A MOTORCYCLE LISTING
 const deleteMotorcycle = async (id) => {
   try {
     const deletedMotorcycle = await db.one(

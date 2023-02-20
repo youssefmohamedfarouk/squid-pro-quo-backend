@@ -2,6 +2,7 @@
 const express = require("express");
 const cors = require("cors");
 const motorcyclesController = require("./controllers/motorcyclesController");
+const bidsController = require("./controllers/bidsController");
 
 // CONFIGURATION
 const app = express();
@@ -15,8 +16,10 @@ app.get("/", (req, res) => {
   res.send("Welcome to Squid Pro Quo!");
 });
 
-// SNACKS ROUTE
+// MOTORCYCLES ROUTE
 app.use("/motorcycles", motorcyclesController);
+
+app.use("/bids", bidsController);
 
 // 404 Page
 app.get("*", (req, res) => {
